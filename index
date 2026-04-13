@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Room Service Survey — Holiday Inn Miraflores</title>
+  <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/en/thumb/0/03/Holiday_Inn_Logo.svg/1280px-Holiday_Inn_Logo.svg.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --gold:        #C9A84C;
+      --gold-light:  #E8D5A3;
+      --gold-dark:   #9A7530;
+      --deep:        #0D1B2A;
+      --navy:        #162032;
+      --slate:       #1E2D3D;
+      --cream:       #F8F4EC;
+      --white:       #FFFFFF;
+      --muted:       #8A9BB0;
+      --selected-bg: #1A2E42;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Jost', sans-serif;
+      background: var(--deep);
+      color: var(--cream);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: hidden;
+    }
+
+    /* ── Animated background ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 10%, rgba(201,168,76,.07) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 80% at 80% 90%, rgba(201,168,76,.05) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Thin gold top bar ── */
+    .topbar {
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent);
+    }
+
+    /* ── Header ── */
+    header {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 48px 24px 36px;
+      width: 100%;
+      max-width: 680px;
+    }
+
+    .logo-wrap {
+      display: inline-block;
+      margin-bottom: 28px;
+      animation: fadeDown .8s ease both;
+    }
+
+    .logo-wrap img {
+      height: 54px;
+      filter: brightness(0) invert(1);
+      opacity: .92;
+    }
+
+    .hotel-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1rem, 3vw, 1.15rem);
+      font-weight: 300;
+      letter-spacing: .35em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      animation: fadeDown .8s .1s ease both;
+    }
+
+    .divider {
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 20px auto;
+      animation: fadeDown .8s .2s ease both;
+    }
+
+    .survey-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 6vw, 2.8rem);
+      font-weight: 500;
+      line-height: 1.15;
+      letter-spacing: .02em;
+      animation: fadeDown .8s .3s ease both;
+    }
+
+    .survey-subtitle {
+      font-size: .82rem;
+      font-weight: 300;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 8px;
+      animation: fadeDown .8s .4s ease both;
+    }
+
+    /* ── Language toggle ── */
+    .lang-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      margin-top: 22px;
+      animation: fadeDown .8s .45s ease both;
+    }
+
+    .lang-btn {
+      background: none;
+      border: 1px solid rgba(201,168,76,.35);
+      color: var(--muted);
+      font-family: 'Jost', sans-serif;
+      font-size: .78rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: 7px 20px;
+      cursor: pointer;
+      transition: all .25s;
+    }
+    .lang-btn:first-child { border-radius: 2px 0 0 2px; border-right: none; }
+    .lang-btn:last-child  { border-radius: 0 2px 2px 0; }
+    .lang-btn.active {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--deep);
+      font-weight: 500;
+    }
+
+    /* ── Card ── */
+    .card {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 640px;
+      background: var(--navy);
+      border: 1px solid rgba(201,168,76,.18);
+      border-radius: 4px;
+      padding: clamp(28px, 6vw, 52px) clamp(24px, 6vw, 52px);
+      margin: 0 16px 60px;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,.03),
+        0 24px 64px rgba(0,0,0,.4),
+        0 2px 0 rgba(201,168,76,.15) inset;
+      animation: fadeUp .9s .5s ease both;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 40px; right: 40px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-light), transparent);
+      opacity: .4;
+    }
+
+    /* ── Name field ── */
+    .name-section {
+      margin-bottom: 36px;
+    }
+
+    .field-label {
+      display: block;
+      font-size: .72rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .name-input {
+      width: 100%;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(201,168,76,.25);
+      border-radius: 2px;
+      color: var(--cream);
+      font-family: 'Jost', sans-serif;
+      font-size: .95rem;
+      padding: 13px 16px;
+      outline: none;
+      transition: border-color .25s, background .25s;
+    }
+
+    .name-input::placeholder { color: var(--muted); }
+    .name-input:focus {
+      border-color: var(--gold);
+      background: rgba(201,168,76,.05);
+    }
+
+    /* ── Questions ── */
+    .question-block {
+      margin-bottom: 32px;
+      opacity: 0;
+      transform: translateY(16px);
+      animation: fadeUp .6s ease forwards;
+    }
+
+    .question-num {
+      font-size: .68rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+
+    .question-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.18rem;
+      font-weight: 400;
+      line-height: 1.4;
+      color: var(--cream);
+      margin-bottom: 14px;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .option {
+      position: relative;
+    }
+
+    .option input { position: absolute; opacity: 0; pointer-events: none; }
+
+    .option label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border: 1px solid rgba(201,168,76,.18);
+      border-radius: 2px;
+      cursor: pointer;
+      font-size: .85rem;
+      font-weight: 300;
+      color: var(--muted);
+      transition: all .22s;
+      user-select: none;
+    }
+
+    .option label .dot {
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      border: 1px solid rgba(201,168,76,.4);
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: all .2s;
+    }
+
+    .option label .dot::after {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      opacity: 0;
+      transform: scale(0);
+      transition: all .2s;
+    }
+
+    .option input:checked + label {
+      border-color: var(--gold);
+      background: rgba(201,168,76,.08);
+      color: var(--gold-light);
+    }
+
+    .option input:checked + label .dot {
+      border-color: var(--gold);
+      background: rgba(201,168,76,.15);
+    }
+
+    .option input:checked + label .dot::after {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .option label:hover {
+      border-color: rgba(201,168,76,.45);
+      color: var(--cream);
+    }
+
+    /* ── Comment ── */
+    .comment-label {
+      display: block;
+      font-size: .72rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .comment-textarea {
+      width: 100%;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(201,168,76,.25);
+      border-radius: 2px;
+      color: var(--cream);
+      font-family: 'Jost', sans-serif;
+      font-size: .9rem;
+      font-weight: 300;
+      padding: 13px 16px;
+      resize: vertical;
+      min-height: 90px;
+      outline: none;
+      transition: border-color .25s, background .25s;
+    }
+
+    .comment-textarea::placeholder { color: var(--muted); }
+    .comment-textarea:focus {
+      border-color: var(--gold);
+      background: rgba(201,168,76,.05);
+    }
+
+    /* ── Submit ── */
+    .submit-wrap {
+      margin-top: 36px;
+      text-align: center;
+    }
+
+    .submit-btn {
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light));
+      border: none;
+      border-radius: 2px;
+      color: var(--deep);
+      font-family: 'Jost', sans-serif;
+      font-size: .8rem;
+      font-weight: 500;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      padding: 15px 48px;
+      cursor: pointer;
+      transition: opacity .25s, transform .2s, box-shadow .25s;
+      box-shadow: 0 4px 24px rgba(201,168,76,.25);
+    }
+
+    .submit-btn:hover {
+      opacity: .92;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 32px rgba(201,168,76,.35);
+    }
+
+    .submit-btn:active { transform: translateY(0); }
+
+    /* ── Success state ── */
+    .success-screen {
+      display: none;
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .success-icon {
+      width: 60px; height: 60px;
+      border-radius: 50%;
+      border: 1px solid var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 24px;
+      font-size: 1.6rem;
+      background: rgba(201,168,76,.08);
+    }
+
+    .success-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 400;
+      color: var(--cream);
+      margin-bottom: 10px;
+    }
+
+    .success-sub {
+      font-size: .85rem;
+      font-weight: 300;
+      color: var(--muted);
+      letter-spacing: .06em;
+    }
+
+    /* ── Error message ── */
+    .error-msg {
+      font-size: .78rem;
+      color: #e57373;
+      margin-top: 12px;
+      letter-spacing: .05em;
+      display: none;
+    }
+
+    /* ── Separator ── */
+    .section-sep {
+      width: 100%; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201,168,76,.2), transparent);
+      margin: 32px 0;
+    }
+
+    /* ── Animations ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 500px) {
+      .options { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="topbar"></div>
+
+<header>
+  <div class="logo-wrap">
+    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/0/03/Holiday_Inn_Logo.svg/1280px-Holiday_Inn_Logo.svg.png" alt="Holiday Inn" />
+  </div>
+  <div class="hotel-name">Miraflores · Lima</div>
+  <div class="divider"></div>
+  <h1 class="survey-title" id="mainTitle">Encuesta de<br>Room Service</h1>
+  <p class="survey-subtitle" id="mainSubtitle">Su opinión es muy importante · menos de 1 minuto</p>
+
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="btnEs" onclick="setLang('es')">ES</button>
+    <button class="lang-btn" id="btnEn" onclick="setLang('en')">EN</button>
+  </div>
+</header>
+
+<div class="card" id="formCard">
+  <form id="surveyForm" onsubmit="submitForm(event)">
+
+    <!-- Name -->
+    <div class="name-section">
+      <label class="field-label" id="labelName" for="guestName">Nombre del huésped</label>
+      <input class="name-input" type="text" id="guestName" name="guestName"
+             placeholder="Ingrese su nombre" autocomplete="name" />
+    </div>
+
+    <div class="section-sep"></div>
+
+    <!-- Q1 -->
+    <div class="question-block" style="animation-delay:.1s">
+      <div class="question-num" id="qnum1">Pregunta 01</div>
+      <div class="question-text" id="qtext1">¿Cómo calificaría la puntualidad en la entrega de su pedido?</div>
+      <div class="options" id="qopts1"></div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="question-block" style="animation-delay:.2s">
+      <div class="question-num" id="qnum2">Pregunta 02</div>
+      <div class="question-text" id="qtext2">¿Cómo evaluaría la presentación de su pedido?</div>
+      <div class="options" id="qopts2"></div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="question-block" style="animation-delay:.3s">
+      <div class="question-num" id="qnum3">Pregunta 03</div>
+      <div class="question-text" id="qtext3">¿Cómo calificaría la calidad y el sabor de los alimentos?</div>
+      <div class="options" id="qopts3"></div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="question-block" style="animation-delay:.4s">
+      <div class="question-num" id="qnum4">Pregunta 04</div>
+      <div class="question-text" id="qtext4">¿Cómo calificaría la atención brindada por nuestro equipo?</div>
+      <div class="options" id="qopts4"></div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="question-block" style="animation-delay:.5s">
+      <div class="question-num" id="qnum5">Pregunta 05</div>
+      <div class="question-text" id="qtext5">En general, ¿qué tan satisfecho(a) se encuentra con el servicio de Room Service?</div>
+      <div class="options" id="qopts5"></div>
+    </div>
+
+    <div class="section-sep"></div>
+
+    <!-- Comment -->
+    <div>
+      <label class="comment-label" id="labelComment" for="comment">Comentario adicional (opcional)</label>
+      <textarea class="comment-textarea" id="comment" name="comment"
+                placeholder="Comparta su experiencia..." rows="3"></textarea>
+    </div>
+
+    <!-- Error -->
+    <p class="error-msg" id="errorMsg">Por favor complete todas las preguntas antes de enviar.</p>
+
+    <!-- Submit -->
+    <div class="submit-wrap">
+      <button type="submit" class="submit-btn" id="submitBtn">Enviar encuesta</button>
+    </div>
+  </form>
+
+  <!-- Success -->
+  <div class="success-screen" id="successScreen">
+    <div class="success-icon">✦</div>
+    <div class="success-title" id="successTitle">¡Gracias por su opinión!</div>
+    <p class="success-sub" id="successSub">Su respuesta ha sido registrada.<br>Esperamos que haya disfrutado su estadía.</p>
+  </div>
+</div>
+
+<script>
+  /* ── Content by language ── */
+  const content = {
+    es: {
+      mainTitle: 'Encuesta de<br>Room Service',
+      mainSubtitle: 'Su opinión es muy importante · menos de 1 minuto',
+      labelName: 'Nombre del huésped',
+      namePlaceholder: 'Ingrese su nombre',
+      questions: [
+        '¿Cómo calificaría la puntualidad en la entrega de su pedido?',
+        '¿Cómo evaluaría la presentación de su pedido?',
+        '¿Cómo calificaría la calidad y el sabor de los alimentos?',
+        '¿Cómo calificaría la atención brindada por nuestro equipo?',
+        'En general, ¿qué tan satisfecho(a) se encuentra con el servicio de Room Service?',
+      ],
+      qnums: ['Pregunta 01','Pregunta 02','Pregunta 03','Pregunta 04','Pregunta 05'],
+      opts14: ['Excelente','Bueno','Regular','Malo'],
+      opts5: ['Muy satisfecho(a)','Satisfecho(a)','Neutral','Insatisfecho(a)'],
+      labelComment: 'Comentario adicional (opcional)',
+      commentPlaceholder: 'Comparta su experiencia...',
+      submitBtn: 'Enviar encuesta',
+      errorMsg: 'Por favor complete todas las preguntas antes de enviar.',
+      successTitle: '¡Gracias por su opinión!',
+      successSub: 'Su respuesta ha sido registrada.<br>Esperamos que haya disfrutado su estadía.',
+    },
+    en: {
+      mainTitle: 'Room Service<br>Survey',
+      mainSubtitle: 'Your feedback matters · less than 1 minute',
+      labelName: 'Guest Name',
+      namePlaceholder: 'Enter your name',
+      questions: [
+        'How would you rate the timeliness of your room service?',
+        'How would you evaluate the presentation of your order?',
+        'How would you rate the quality and taste of the food?',
+        'How would you assess the service provided by our team?',
+        'Overall, how satisfied are you with your Room Service experience?',
+      ],
+      qnums: ['Question 01','Question 02','Question 03','Question 04','Question 05'],
+      opts14: ['Excellent','Good','Fair','Poor'],
+      opts5: ['Very satisfied','Satisfied','Neutral','Dissatisfied'],
+      labelComment: 'Additional comments (optional)',
+      commentPlaceholder: 'Share your experience...',
+      submitBtn: 'Submit survey',
+      errorMsg: 'Please answer all questions before submitting.',
+      successTitle: 'Thank you for your feedback!',
+      successSub: 'Your response has been recorded.<br>We hope you enjoyed your stay.',
+    }
+  };
+
+  let currentLang = 'es';
+
+  function buildOptions(qIndex, opts, lang) {
+    const container = document.getElementById('qopts' + qIndex);
+    container.innerHTML = '';
+    opts.forEach((opt, i) => {
+      const div = document.createElement('div');
+      div.className = 'option';
+      div.innerHTML = `
+        <input type="radio" name="q${qIndex}" id="q${qIndex}o${i}" value="${opt}" />
+        <label for="q${qIndex}o${i}">
+          <span class="dot"></span>
+          <span>${opt}</span>
+        </label>`;
+      container.appendChild(div);
+    });
+  }
+
+  function setLang(lang) {
+    currentLang = lang;
+    const c = content[lang];
+    document.getElementById('mainTitle').innerHTML = c.mainTitle;
+    document.getElementById('mainSubtitle').textContent = c.mainSubtitle;
+    document.getElementById('labelName').textContent = c.labelName;
+    document.getElementById('guestName').placeholder = c.namePlaceholder;
+    document.getElementById('labelComment').textContent = c.labelComment;
+    document.getElementById('comment').placeholder = c.commentPlaceholder;
+    document.getElementById('submitBtn').textContent = c.submitBtn;
+    document.getElementById('errorMsg').textContent = c.errorMsg;
+
+    for (let i = 1; i <= 5; i++) {
+      document.getElementById('qnum' + i).textContent = c.qnums[i-1];
+      document.getElementById('qtext' + i).textContent = c.questions[i-1];
+      const opts = (i < 5) ? c.opts14 : c.opts5;
+      buildOptions(i, opts, lang);
+    }
+
+    document.getElementById('btnEs').classList.toggle('active', lang === 'es');
+    document.getElementById('btnEn').classList.toggle('active', lang === 'en');
+  }
+
+  /* initialise */
+  setLang('es');
+
+  /* ── Form submission ── */
+  async function submitForm(e) {
+    e.preventDefault();
+    const c = content[currentLang];
+    const errorEl = document.getElementById('errorMsg');
+    errorEl.style.display = 'none';
+
+    const name = document.getElementById('guestName').value.trim();
+    if (!name) {
+      errorEl.textContent = currentLang === 'es'
+        ? 'Por favor ingrese su nombre.'
+        : 'Please enter your name.';
+      errorEl.style.display = 'block';
+      return;
+    }
+
+    const answers = [];
+    for (let i = 1; i <= 5; i++) {
+      const sel = document.querySelector(`input[name="q${i}"]:checked`);
+      if (!sel) {
+        errorEl.textContent = c.errorMsg;
+        errorEl.style.display = 'block';
+        return;
+      }
+      answers.push(sel.value);
+    }
+
+    const comment = document.getElementById('comment').value.trim();
+    const btn = document.getElementById('submitBtn');
+    btn.textContent = currentLang === 'es' ? 'Enviando...' : 'Sending...';
+    btn.disabled = true;
+
+    /* ── Send to Google Apps Script Web App ── */
+    const SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE'; // ← reemplazar
+
+    const payload = {
+      timestamp: new Date().toLocaleString('es-PE', {timeZone:'America/Lima'}),
+      nombre: name,
+      idioma: currentLang === 'es' ? 'Español' : 'English',
+      puntualidad: answers[0],
+      presentacion: answers[1],
+      calidad: answers[2],
+      atencion: answers[3],
+      satisfaccion: answers[4],
+      comentario: comment || '—',
+    };
+
+    try {
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+    } catch (_) { /* no-cors silences errors; data still posts */ }
+
+    /* Show success */
+    document.getElementById('surveyForm').style.display = 'none';
+    const ss = document.getElementById('successScreen');
+    ss.style.display = 'block';
+    document.getElementById('successTitle').textContent = c.successTitle;
+    document.getElementById('successSub').innerHTML = c.successSub;
+  }
+</script>
+</body>
+</html>
