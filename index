@@ -638,7 +638,7 @@
     btn.disabled = true;
 
     /* ── Send to Google Apps Script Web App ── */
-    const SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE'; // ← reemplazar
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyLKm7uMCOhH_iSrGkafyT0UOPqPkAzhO6JR5Ul5EXK0brzupevA1pgpgt--MnNQuXN/exec'; // ← reemplazar
 
     const payload = {
       timestamp: new Date().toLocaleString('es-PE', {timeZone:'America/Lima'}),
