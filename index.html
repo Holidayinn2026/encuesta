@@ -1,26 +1,25 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Room Service Survey — Holiday Inn Miraflores</title>
-  <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/en/thumb/0/03/Holiday_Inn_Logo.svg/1280px-Holiday_Inn_Logo.svg.png" />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="icon" href="https://upload.wikimedia.org/wikipedia/en/thumb/0/03/Holiday_Inn_Logo.svg/1280px-Holiday_Inn_Logo.svg.png"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --gold:        #C9A84C;
-      --gold-light:  #E8D5A3;
-      --gold-dark:   #9A7530;
-      --deep:        #0D1B2A;
-      --navy:        #162032;
-      --slate:       #1E2D3D;
-      --cream:       #F8F4EC;
-      --white:       #FFFFFF;
-      --muted:       #8A9BB0;
-      --selected-bg: #1A2E42;
+      --gold:       #C9A84C;
+      --gold-light: #E8D5A3;
+      --gold-dark:  #9A7530;
+      --deep:       #0D1B2A;
+      --navy:       #132030;
+      --cream:      #F5F0E8;
+      --muted:      #7A8FA8;
+      --error:      #E07070;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: 'Jost', sans-serif;
@@ -33,389 +32,337 @@
       overflow-x: hidden;
     }
 
-    /* ── Animated background ── */
     body::before {
       content: '';
-      position: fixed;
-      inset: 0;
+      position: fixed; inset: 0;
       background:
-        radial-gradient(ellipse 80% 60% at 20% 10%, rgba(201,168,76,.07) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 80% at 80% 90%, rgba(201,168,76,.05) 0%, transparent 60%);
-      pointer-events: none;
-      z-index: 0;
+        radial-gradient(ellipse 70% 50% at 15% 5%,  rgba(201,168,76,.08) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 70% at 85% 95%, rgba(201,168,76,.06) 0%, transparent 60%);
+      pointer-events: none; z-index: 0;
     }
 
-    /* ── Thin gold top bar ── */
     .topbar {
-      width: 100%;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent);
+      width: 100%; height: 3px; flex-shrink: 0;
+      background: linear-gradient(90deg, transparent 0%, var(--gold-dark) 20%, var(--gold) 50%, var(--gold-light) 65%, var(--gold) 80%, transparent 100%);
     }
 
-    /* ── Header ── */
+    .page {
+      position: relative; z-index: 1;
+      width: 100%; max-width: 680px;
+      padding: 0 20px 80px;
+      display: flex; flex-direction: column; align-items: center;
+    }
+
+    /* HEADER */
     header {
-      position: relative;
-      z-index: 1;
-      text-align: center;
-      padding: 48px 24px 36px;
-      width: 100%;
-      max-width: 680px;
+      width: 100%; text-align: center;
+      padding: 52px 0 40px;
     }
-
     .logo-wrap {
-      display: inline-block;
-      margin-bottom: 28px;
-      animation: fadeDown .8s ease both;
+      display: inline-block; margin-bottom: 24px;
+      animation: fadeDown .7s ease both;
     }
-
     .logo-wrap img {
-      height: 54px;
-      filter: brightness(0) invert(1);
-      opacity: .92;
+      height: 52px;
+      filter: brightness(0) invert(1); opacity: .9;
     }
-
     .hotel-name {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1rem, 3vw, 1.15rem);
-      font-weight: 300;
-      letter-spacing: .35em;
-      text-transform: uppercase;
+      font-size: 1rem; font-weight: 300;
+      letter-spacing: .4em; text-transform: uppercase;
       color: var(--gold-light);
-      animation: fadeDown .8s .1s ease both;
+      animation: fadeDown .7s .08s ease both;
     }
-
-    .divider {
-      width: 60px;
-      height: 1px;
+    .divider-line {
+      width: 56px; height: 1px;
       background: linear-gradient(90deg, transparent, var(--gold), transparent);
       margin: 20px auto;
-      animation: fadeDown .8s .2s ease both;
+      animation: fadeDown .7s .16s ease both;
     }
-
     .survey-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2rem, 6vw, 2.8rem);
-      font-weight: 500;
-      line-height: 1.15;
-      letter-spacing: .02em;
-      animation: fadeDown .8s .3s ease both;
+      font-size: clamp(2rem, 7vw, 3rem); font-weight: 500;
+      line-height: 1.12; letter-spacing: .03em;
+      animation: fadeDown .7s .22s ease both;
     }
-
-    .survey-subtitle {
-      font-size: .82rem;
-      font-weight: 300;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-top: 8px;
-      animation: fadeDown .8s .4s ease both;
+    .survey-sub {
+      font-size: .78rem; font-weight: 300;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--muted); margin-top: 10px;
+      animation: fadeDown .7s .28s ease both;
     }
-
-    /* ── Language toggle ── */
     .lang-toggle {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0;
-      margin-top: 22px;
-      animation: fadeDown .8s .45s ease both;
+      display: inline-flex; margin-top: 26px;
+      border: 1px solid rgba(201,168,76,.3); border-radius: 3px; overflow: hidden;
+      animation: fadeDown .7s .34s ease both;
     }
-
     .lang-btn {
-      background: none;
-      border: 1px solid rgba(201,168,76,.35);
-      color: var(--muted);
-      font-family: 'Jost', sans-serif;
-      font-size: .78rem;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      padding: 7px 20px;
-      cursor: pointer;
-      transition: all .25s;
+      background: none; border: none;
+      color: var(--muted); font-family: 'Jost', sans-serif;
+      font-size: .74rem; font-weight: 500;
+      letter-spacing: .14em; text-transform: uppercase;
+      padding: 8px 22px; cursor: pointer;
+      transition: background .2s, color .2s;
     }
-    .lang-btn:first-child { border-radius: 2px 0 0 2px; border-right: none; }
-    .lang-btn:last-child  { border-radius: 0 2px 2px 0; }
-    .lang-btn.active {
-      background: var(--gold);
-      border-color: var(--gold);
-      color: var(--deep);
-      font-weight: 500;
-    }
+    .lang-btn + .lang-btn { border-left: 1px solid rgba(201,168,76,.3); }
+    .lang-btn.active { background: var(--gold); color: var(--deep); }
 
-    /* ── Card ── */
+    /* CARD */
     .card {
-      position: relative;
-      z-index: 1;
-      width: 100%;
-      max-width: 640px;
+      position: relative; width: 100%;
       background: var(--navy);
-      border: 1px solid rgba(201,168,76,.18);
-      border-radius: 4px;
-      padding: clamp(28px, 6vw, 52px) clamp(24px, 6vw, 52px);
-      margin: 0 16px 60px;
-      box-shadow:
-        0 0 0 1px rgba(255,255,255,.03),
-        0 24px 64px rgba(0,0,0,.4),
-        0 2px 0 rgba(201,168,76,.15) inset;
-      animation: fadeUp .9s .5s ease both;
+      border: 1px solid rgba(201,168,76,.16);
+      border-radius: 6px;
+      padding: clamp(32px,7vw,56px) clamp(28px,7vw,56px);
+      box-shadow: 0 0 0 1px rgba(255,255,255,.025) inset,
+                  0 32px 80px rgba(0,0,0,.5);
+      animation: fadeUp .8s .4s ease both;
+      overflow: hidden;
     }
-
     .card::before {
       content: '';
-      position: absolute;
-      top: 0; left: 40px; right: 40px; height: 1px;
-      background: linear-gradient(90deg, transparent, var(--gold-light), transparent);
-      opacity: .4;
+      position: absolute; top: 0; left: 15%; right: 15%; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(232,213,163,.45), transparent);
+    }
+    .card::after {
+      content: '✦';
+      position: absolute; top: 14px; right: 20px;
+      font-size: .7rem; color: rgba(201,168,76,.22);
     }
 
-    /* ── Name field ── */
-    .name-section {
-      margin-bottom: 36px;
-    }
-
+    /* NAME */
+    .name-section { margin-bottom: 38px; }
     .field-label {
-      display: block;
-      font-size: .72rem;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 10px;
+      display: block; font-size: .68rem;
+      letter-spacing: .22em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 10px;
     }
-
     .name-input {
       width: 100%;
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(201,168,76,.25);
-      border-radius: 2px;
-      color: var(--cream);
-      font-family: 'Jost', sans-serif;
-      font-size: .95rem;
-      padding: 13px 16px;
-      outline: none;
-      transition: border-color .25s, background .25s;
+      background: rgba(255,255,255,.035);
+      border: 1px solid rgba(201,168,76,.22); border-radius: 3px;
+      color: var(--cream); font-family: 'Jost', sans-serif;
+      font-size: .95rem; font-weight: 300;
+      padding: 14px 18px; outline: none;
+      transition: border-color .25s, background .25s, box-shadow .25s;
     }
-
     .name-input::placeholder { color: var(--muted); }
     .name-input:focus {
-      border-color: var(--gold);
-      background: rgba(201,168,76,.05);
+      border-color: var(--gold); background: rgba(201,168,76,.04);
+      box-shadow: 0 0 0 3px rgba(201,168,76,.08);
     }
 
-    /* ── Questions ── */
-    .question-block {
-      margin-bottom: 32px;
-      opacity: 0;
-      transform: translateY(16px);
-      animation: fadeUp .6s ease forwards;
+    /* SEP */
+    .sep {
+      width: 100%; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201,168,76,.18), transparent);
+      margin: 34px 0;
     }
 
-    .question-num {
-      font-size: .68rem;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 6px;
+    /* QUESTION BLOCK */
+    .q-block { margin-bottom: 38px; }
+    .q-num {
+      font-size: .64rem; letter-spacing: .24em; text-transform: uppercase;
+      color: var(--gold-dark); margin-bottom: 7px;
     }
-
-    .question-text {
+    .q-text {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.18rem;
-      font-weight: 400;
-      line-height: 1.4;
-      color: var(--cream);
-      margin-bottom: 14px;
+      font-size: 1.2rem; font-weight: 400; line-height: 1.45;
+      color: var(--cream); margin-bottom: 22px; text-align: center;
     }
 
-    /* ── Star rating ── */
-    .star-group {
+    /* ── STARS ── */
+    .star-row {
       display: flex;
-      flex-direction: row;
-      gap: 6px;
-      align-items: center;
-    }
-
-    .star-wrap {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 5px;
-      cursor: pointer;
-    }
-
-    .star-wrap input { position: absolute; opacity: 0; pointer-events: none; width: 0; height: 0; }
-
-    .star-icon {
-      font-size: 2rem;
-      line-height: 1;
-      color: rgba(201,168,76,.22);
-      transition: color .18s, transform .18s, text-shadow .18s;
+      justify-content: center;
+      gap: 14px;
       user-select: none;
-      display: block;
     }
 
-    .star-label-text {
-      font-size: .62rem;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--muted);
-      transition: color .18s;
-      white-space: nowrap;
+    .star-cell {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 7px;
     }
 
-    /* hover: light up all stars up to hovered */
-    .star-group:hover .star-wrap .star-icon { color: rgba(201,168,76,.25); }
-    .star-group .star-wrap:hover ~ .star-wrap .star-icon { color: rgba(201,168,76,.22) !important; }
-    .star-group .star-wrap:hover .star-icon,
-    .star-group .star-wrap:hover ~ .star-wrap:not(.selected) .star-icon { color: rgba(201,168,76,.22); }
-
-    /* selected state */
-    .star-wrap.selected .star-icon {
-      color: var(--gold);
-      text-shadow: 0 0 12px rgba(201,168,76,.5);
-      transform: scale(1.12);
-    }
-    .star-wrap.selected .star-label-text { color: var(--gold-light); }
-
-    /* hover fill up to this star */
-    .star-group .star-wrap:hover .star-icon { color: var(--gold) !important; }
-    .star-group:hover .star-wrap { }
-
-    /* selected-answer label below stars */
-    .star-answer {
-      margin-top: 10px;
-      font-size: .75rem;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: var(--gold);
-      min-height: 1.2em;
-      text-align: center;
-      transition: opacity .2s;
+    .star-btn {
+      background: none; border: none; cursor: pointer;
+      padding: 6px 8px; outline: none;
+      -webkit-tap-highlight-color: transparent;
+      line-height: 1;
+      /* prevent any browser default that could interfere */
+      -webkit-appearance: none; appearance: none;
     }
 
-    /* ── Comment ── */
+    .star-svg {
+      width: 44px; height: 44px; display: block;
+      transition: transform .2s cubic-bezier(.34,1.56,.64,1),
+                  filter .2s;
+    }
+    .star-path {
+      fill: rgba(201,168,76,.12);
+      stroke: rgba(201,168,76,.3);
+      stroke-width: 1.5;
+      transition: fill .15s, stroke .15s;
+    }
+
+    /* Hover preview only while mouse is over that cell */
+    .star-btn:hover .star-path {
+      fill: rgba(201,168,76,.45);
+      stroke: var(--gold);
+    }
+    .star-btn:hover .star-svg {
+      transform: scale(1.1);
+    }
+
+    /* Selected (lit) — class driven, stable */
+    .star-cell.lit .star-path {
+      fill: var(--gold);
+      stroke: var(--gold-light);
+    }
+    .star-cell.lit .star-svg {
+      transform: scale(1.15);
+      filter: drop-shadow(0 2px 8px rgba(201,168,76,.5));
+    }
+
+    .star-num {
+      font-size: .6rem; letter-spacing: .1em;
+      color: var(--muted); transition: color .15s; pointer-events: none;
+    }
+    .star-cell.lit .star-num { color: var(--gold); }
+
+    /* Answer pill */
+    .star-answer { text-align: center; margin-top: 14px; min-height: 28px; }
+    .star-pill {
+      display: inline-block;
+      background: rgba(201,168,76,.1);
+      border: 1px solid rgba(201,168,76,.28);
+      border-radius: 20px;
+      padding: 4px 18px;
+      font-size: .72rem; font-weight: 500;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--gold-light);
+      opacity: 0; transform: translateY(4px);
+      transition: opacity .25s, transform .25s;
+    }
+    .star-pill.show { opacity: 1; transform: translateY(0); }
+
+    /* COMMENT */
     .comment-label {
-      display: block;
-      font-size: .72rem;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 10px;
+      display: block; font-size: .68rem;
+      letter-spacing: .22em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 10px;
     }
-
     .comment-textarea {
-      width: 100%;
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(201,168,76,.25);
-      border-radius: 2px;
-      color: var(--cream);
-      font-family: 'Jost', sans-serif;
-      font-size: .9rem;
-      font-weight: 300;
-      padding: 13px 16px;
-      resize: vertical;
-      min-height: 90px;
+      width: 100%; background: rgba(255,255,255,.035);
+      border: 1px solid rgba(201,168,76,.22); border-radius: 3px;
+      color: var(--cream); font-family: 'Jost', sans-serif;
+      font-size: .9rem; font-weight: 300;
+      padding: 14px 18px; resize: vertical; min-height: 90px;
       outline: none;
-      transition: border-color .25s, background .25s;
+      transition: border-color .25s, background .25s, box-shadow .25s;
     }
-
     .comment-textarea::placeholder { color: var(--muted); }
     .comment-textarea:focus {
-      border-color: var(--gold);
-      background: rgba(201,168,76,.05);
+      border-color: var(--gold); background: rgba(201,168,76,.04);
+      box-shadow: 0 0 0 3px rgba(201,168,76,.08);
     }
 
-    /* ── Submit ── */
-    .submit-wrap {
-      margin-top: 36px;
-      text-align: center;
+    /* ERROR */
+    .error-msg {
+      font-size: .78rem; color: var(--error);
+      letter-spacing: .06em; margin-top: 18px;
+      display: none; text-align: center;
     }
 
+    /* SUBMIT */
+    .submit-wrap { margin-top: 38px; text-align: center; }
     .submit-btn {
-      background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light));
-      border: none;
-      border-radius: 2px;
-      color: var(--deep);
-      font-family: 'Jost', sans-serif;
-      font-size: .8rem;
-      font-weight: 500;
-      letter-spacing: .22em;
-      text-transform: uppercase;
-      padding: 15px 48px;
-      cursor: pointer;
-      transition: opacity .25s, transform .2s, box-shadow .25s;
-      box-shadow: 0 4px 24px rgba(201,168,76,.25);
+      position: relative; overflow: hidden;
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold) 55%, var(--gold-light));
+      border: none; border-radius: 3px;
+      color: var(--deep); font-family: 'Jost', sans-serif;
+      font-size: .78rem; font-weight: 600;
+      letter-spacing: .26em; text-transform: uppercase;
+      padding: 16px 52px; cursor: pointer;
+      transition: opacity .2s, transform .2s, box-shadow .2s;
+      box-shadow: 0 6px 28px rgba(201,168,76,.28), 0 2px 8px rgba(0,0,0,.3);
     }
-
-    .submit-btn:hover {
-      opacity: .92;
-      transform: translateY(-1px);
-      box-shadow: 0 8px 32px rgba(201,168,76,.35);
+    .submit-btn::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,.18) 0%, transparent 60%);
+      pointer-events: none;
     }
+    .submit-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 36px rgba(201,168,76,.38), 0 4px 12px rgba(0,0,0,.3);
+    }
+    .submit-btn:active:not(:disabled) { transform: translateY(0); }
+    .submit-btn:disabled { opacity: .6; cursor: default; }
 
-    .submit-btn:active { transform: translateY(0); }
-
-    /* ── Success state ── */
+    /* SUCCESS */
     .success-screen {
-      display: none;
-      text-align: center;
-      padding: 20px 0;
+      display: none; text-align: center;
+      padding: 16px 0 8px;
     }
-
-    .success-icon {
-      width: 60px; height: 60px;
-      border-radius: 50%;
-      border: 1px solid var(--gold);
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 24px;
-      font-size: 1.6rem;
-      background: rgba(201,168,76,.08);
+    .success-ornament {
+      font-size: 2.4rem; color: var(--gold);
+      margin-bottom: 18px;
+      animation: pulse 2.8s ease infinite;
+      display: block;
     }
-
     .success-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 2rem;
-      font-weight: 400;
-      color: var(--cream);
-      margin-bottom: 10px;
+      font-size: clamp(1.8rem, 6vw, 2.6rem); font-weight: 500;
+      color: var(--cream); margin-bottom: 12px; line-height: 1.15;
     }
-
+    .success-stars {
+      font-size: 2rem; color: var(--gold);
+      letter-spacing: .12em; margin-bottom: 20px;
+      filter: drop-shadow(0 2px 8px rgba(201,168,76,.4));
+    }
     .success-sub {
-      font-size: .85rem;
-      font-weight: 300;
-      color: var(--muted);
-      letter-spacing: .06em;
+      font-size: .88rem; font-weight: 300; line-height: 1.75;
+      color: var(--muted); letter-spacing: .04em; margin-bottom: 36px;
+    }
+    .exit-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: rgba(201,168,76,.08);
+      border: 1px solid rgba(201,168,76,.3); border-radius: 3px;
+      color: var(--gold-light); font-family: 'Jost', sans-serif;
+      font-size: .76rem; font-weight: 500;
+      letter-spacing: .2em; text-transform: uppercase;
+      padding: 14px 36px; cursor: pointer;
+      transition: background .22s, border-color .22s, transform .18s, box-shadow .22s;
+    }
+    .exit-btn:hover {
+      background: rgba(201,168,76,.15); border-color: var(--gold);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(0,0,0,.25);
+    }
+    .exit-btn svg {
+      width: 14px; height: 14px;
+      stroke: var(--gold-light); fill: none;
+      stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
     }
 
-    /* ── Error message ── */
-    .error-msg {
-      font-size: .78rem;
-      color: #e57373;
-      margin-top: 12px;
-      letter-spacing: .05em;
-      display: none;
-    }
-
-    /* ── Separator ── */
-    .section-sep {
-      width: 100%; height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(201,168,76,.2), transparent);
-      margin: 32px 0;
-    }
-
-    /* ── Animations ── */
+    /* ANIMATIONS */
     @keyframes fadeDown {
-      from { opacity: 0; transform: translateY(-14px); }
+      from { opacity: 0; transform: translateY(-12px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(14px); }
       to   { opacity: 1; transform: translateY(0); }
     }
+    @keyframes pulse {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: .75; transform: scale(1.08); }
+    }
 
-    /* ── Responsive ── */
-    @media (max-width: 500px) {
-      .options { grid-template-columns: 1fr; }
+    @media (max-width: 420px) {
+      .star-svg { width: 36px; height: 36px; }
+      .star-row { gap: 8px; }
     }
   </style>
 </head>
@@ -423,303 +370,356 @@
 
 <div class="topbar"></div>
 
-<header>
-  <div class="logo-wrap">
-    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/0/03/Holiday_Inn_Logo.svg/1280px-Holiday_Inn_Logo.svg.png" alt="Holiday Inn" />
-  </div>
-  <div class="hotel-name">Miraflores · Lima</div>
-  <div class="divider"></div>
-  <h1 class="survey-title" id="mainTitle">Encuesta de<br>Room Service</h1>
-  <p class="survey-subtitle" id="mainSubtitle">Su opinión es muy importante · menos de 1 minuto</p>
+<div class="page">
 
-  <div class="lang-toggle">
-    <button class="lang-btn active" id="btnEs" onclick="setLang('es')">ES</button>
-    <button class="lang-btn" id="btnEn" onclick="setLang('en')">EN</button>
-  </div>
-</header>
+  <header>
+    <div class="logo-wrap">
+      <img src="https://upload.wikimedia.org/wikipedia/en/thumb/0/03/Holiday_Inn_Logo.svg/1280px-Holiday_Inn_Logo.svg.png" alt="Holiday Inn"/>
+    </div>
+    <div class="hotel-name">Miraflores &nbsp;·&nbsp; Lima</div>
+    <div class="divider-line"></div>
+    <h1 class="survey-title" id="mainTitle">Encuesta de<br>Room Service</h1>
+    <p class="survey-sub" id="mainSubtitle">Su opinión es muy importante &nbsp;·&nbsp; menos de 1 minuto</p>
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="btnEs" onclick="setLang('es')">ES</button>
+      <button class="lang-btn"        id="btnEn" onclick="setLang('en')">EN</button>
+    </div>
+  </header>
 
-<div class="card" id="formCard">
-  <form id="surveyForm" onsubmit="submitForm(event)">
+  <div class="card" id="formCard">
 
-    <!-- Name -->
-    <div class="name-section">
-      <label class="field-label" id="labelName" for="guestName">Nombre del huésped</label>
-      <input class="name-input" type="text" id="guestName" name="guestName"
-             placeholder="Ingrese su nombre" autocomplete="name" />
+    <form id="surveyForm" onsubmit="submitForm(event)" novalidate>
+
+      <div class="name-section">
+        <label class="field-label" id="labelName" for="guestName">Nombre del huésped</label>
+        <input class="name-input" type="text" id="guestName"
+               placeholder="Ingrese su nombre" autocomplete="name"/>
+      </div>
+
+      <div class="sep"></div>
+
+      <div id="q-container"></div>
+
+      <div class="sep"></div>
+
+      <div>
+        <label class="comment-label" id="labelComment" for="comment">Comentario adicional (opcional)</label>
+        <textarea class="comment-textarea" id="comment"
+                  placeholder="Comparta su experiencia..." rows="3"></textarea>
+      </div>
+
+      <p class="error-msg" id="errorMsg"></p>
+
+      <div class="submit-wrap">
+        <button type="submit" class="submit-btn" id="submitBtn">Enviar encuesta</button>
+      </div>
+
+    </form>
+
+    <div class="success-screen" id="successScreen">
+      <span class="success-ornament">✦</span>
+      <div class="success-title" id="successTitle">¡Gracias por su opinión!</div>
+      <div class="success-stars" id="successStars">★★★★</div>
+      <p   class="success-sub"   id="successSub">Su respuesta ha sido registrada.<br>Esperamos que haya disfrutado su estadía.</p>
+      <button class="exit-btn" onclick="closePage()">
+        <svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        <span id="exitLabel">Cerrar encuesta</span>
+      </button>
     </div>
 
-    <div class="section-sep"></div>
-
-    <!-- Q1 -->
-    <div class="question-block" style="animation-delay:.1s">
-      <div class="question-num" id="qnum1">Pregunta 01</div>
-      <div class="question-text" id="qtext1">¿Cómo calificaría la puntualidad en la entrega de su pedido?</div>
-      <div class="options" id="qopts1"></div>
-    </div>
-
-    <!-- Q2 -->
-    <div class="question-block" style="animation-delay:.2s">
-      <div class="question-num" id="qnum2">Pregunta 02</div>
-      <div class="question-text" id="qtext2">¿Cómo evaluaría la presentación de su pedido?</div>
-      <div class="options" id="qopts2"></div>
-    </div>
-
-    <!-- Q3 -->
-    <div class="question-block" style="animation-delay:.3s">
-      <div class="question-num" id="qnum3">Pregunta 03</div>
-      <div class="question-text" id="qtext3">¿Cómo calificaría la calidad y el sabor de los alimentos?</div>
-      <div class="options" id="qopts3"></div>
-    </div>
-
-    <!-- Q4 -->
-    <div class="question-block" style="animation-delay:.4s">
-      <div class="question-num" id="qnum4">Pregunta 04</div>
-      <div class="question-text" id="qtext4">¿Cómo calificaría la atención brindada por nuestro equipo?</div>
-      <div class="options" id="qopts4"></div>
-    </div>
-
-    <!-- Q5 -->
-    <div class="question-block" style="animation-delay:.5s">
-      <div class="question-num" id="qnum5">Pregunta 05</div>
-      <div class="question-text" id="qtext5">En general, ¿qué tan satisfecho(a) se encuentra con el servicio de Room Service?</div>
-      <div class="options" id="qopts5"></div>
-    </div>
-
-    <div class="section-sep"></div>
-
-    <!-- Comment -->
-    <div>
-      <label class="comment-label" id="labelComment" for="comment">Comentario adicional (opcional)</label>
-      <textarea class="comment-textarea" id="comment" name="comment"
-                placeholder="Comparta su experiencia..." rows="3"></textarea>
-    </div>
-
-    <!-- Error -->
-    <p class="error-msg" id="errorMsg">Por favor complete todas las preguntas antes de enviar.</p>
-
-    <!-- Submit -->
-    <div class="submit-wrap">
-      <button type="submit" class="submit-btn" id="submitBtn">Enviar encuesta</button>
-    </div>
-  </form>
-
-  <!-- Success -->
-  <div class="success-screen" id="successScreen">
-    <div class="success-icon">✦</div>
-    <div class="success-title" id="successTitle">¡Gracias por su opinión!</div>
-    <p class="success-sub" id="successSub">Su respuesta ha sido registrada.<br>Esperamos que haya disfrutado su estadía.</p>
   </div>
 </div>
 
 <script>
-  /* ── Content by language ── */
-  const content = {
-    es: {
-      mainTitle: 'Encuesta de<br>Room Service',
-      mainSubtitle: 'Su opinión es muy importante · menos de 1 minuto',
-      labelName: 'Nombre del huésped',
-      namePlaceholder: 'Ingrese su nombre',
-      questions: [
-        '¿Cómo calificaría la puntualidad en la entrega de su pedido?',
-        '¿Cómo evaluaría la presentación de su pedido?',
-        '¿Cómo calificaría la calidad y el sabor de los alimentos?',
-        '¿Cómo calificaría la atención brindada por nuestro equipo?',
-        'En general, ¿qué tan satisfecho(a) se encuentra con el servicio de Room Service?',
-      ],
-      qnums: ['Pregunta 01','Pregunta 02','Pregunta 03','Pregunta 04','Pregunta 05'],
-      opts14: ['Excelente','Bueno','Regular','Malo'],
-      opts5: ['Muy satisfecho(a)','Satisfecho(a)','Neutral','Insatisfecho(a)'],
-      labelComment: 'Comentario adicional (opcional)',
-      commentPlaceholder: 'Comparta su experiencia...',
-      submitBtn: 'Enviar encuesta',
-      errorMsg: 'Por favor complete todas las preguntas antes de enviar.',
-      successTitle: '¡Gracias por su opinión!',
-      successSub: 'Su respuesta ha sido registrada.<br>Esperamos que haya disfrutado su estadía.',
-    },
-    en: {
-      mainTitle: 'Room Service<br>Survey',
-      mainSubtitle: 'Your feedback matters · less than 1 minute',
-      labelName: 'Guest Name',
-      namePlaceholder: 'Enter your name',
-      questions: [
-        'How would you rate the timeliness of your room service?',
-        'How would you evaluate the presentation of your order?',
-        'How would you rate the quality and taste of the food?',
-        'How would you assess the service provided by our team?',
-        'Overall, how satisfied are you with your Room Service experience?',
-      ],
-      qnums: ['Question 01','Question 02','Question 03','Question 04','Question 05'],
-      opts14: ['Excellent','Good','Fair','Poor'],
-      opts5: ['Very satisfied','Satisfied','Neutral','Dissatisfied'],
-      labelComment: 'Additional comments (optional)',
-      commentPlaceholder: 'Share your experience...',
-      submitBtn: 'Submit survey',
-      errorMsg: 'Please answer all questions before submitting.',
-      successTitle: 'Thank you for your feedback!',
-      successSub: 'Your response has been recorded.<br>We hope you enjoyed your stay.',
-    }
-  };
-
-  let currentLang = 'es';
-
-  /* Map star count → label text (always 4 options → 4 stars) */
-  /* Star 4 = best, Star 1 = worst */
-
-  function buildStars(qIndex, opts) {
-    // opts[0]=best(4★) … opts[3]=worst(1★)
-    // We render 4 stars left-to-right: star 1 = opts[3], star 2 = opts[2], star 3 = opts[1], star 4 = opts[0]
-    // But UX convention: leftmost star = 1 star (worst), rightmost = 4 stars (best)
-    // So: star position i (1-based) maps to opts[4-i]
-    const container = document.getElementById('qopts' + qIndex);
-    container.innerHTML = '';
-
-    const group = document.createElement('div');
-    group.className = 'star-group';
-    group.id = 'stargroup' + qIndex;
-
-    for (let i = 1; i <= 4; i++) {
-      const label = opts[4 - i]; // 1★→opts[3], 2★→opts[2], 3★→opts[1], 4★→opts[0]
-      const wrap = document.createElement('div');
-      wrap.className = 'star-wrap';
-      wrap.dataset.value = label;
-      wrap.dataset.stars = i;
-      wrap.innerHTML = `
-        <span class="star-icon">★</span>
-        <span class="star-label-text">${i}★</span>`;
-
-      wrap.addEventListener('click', () => selectStar(qIndex, i, opts));
-      group.appendChild(wrap);
-    }
-
-    const answerEl = document.createElement('div');
-    answerEl.className = 'star-answer';
-    answerEl.id = 'starans' + qIndex;
-
-    container.appendChild(group);
-    container.appendChild(answerEl);
+/* ── CONTENT ── */
+const C = {
+  es: {
+    mainTitle:    'Encuesta de<br>Room Service',
+    mainSub:      'Su opinión es muy importante &nbsp;·&nbsp; menos de 1 minuto',
+    labelName:    'Nombre del huésped',
+    namePH:       'Ingrese su nombre',
+    qnums:        ['Pregunta 01','Pregunta 02','Pregunta 03','Pregunta 04','Pregunta 05'],
+    questions: [
+      '¿Cómo calificaría la puntualidad en la entrega de su pedido?',
+      '¿Cómo evaluaría la presentación de su pedido?',
+      '¿Cómo calificaría la calidad y el sabor de los alimentos?',
+      '¿Cómo calificaría la atención brindada por nuestro equipo?',
+      'En general, ¿qué tan satisfecho(a) se encuentra con el servicio de Room Service?',
+    ],
+    opts14: ['Excelente','Bueno','Regular','Malo'],
+    opts5:  ['Muy satisfecho(a)','Satisfecho(a)','Neutral','Insatisfecho(a)'],
+    labelComment: 'Comentario adicional (opcional)',
+    commentPH:    'Comparta su experiencia...',
+    submitBtn:    'Enviar encuesta',
+    errName:      'Por favor ingrese su nombre.',
+    errAll:       'Por favor responda todas las preguntas antes de enviar.',
+    successTitle: '¡Gracias por su opinión!',
+    successSub:   'Su respuesta ha sido registrada.<br>Esperamos que haya disfrutado su estadía.',
+    exitLabel:    'Cerrar encuesta',
+  },
+  en: {
+    mainTitle:    'Room Service<br>Survey',
+    mainSub:      'Your feedback matters &nbsp;·&nbsp; less than 1 minute',
+    labelName:    'Guest Name',
+    namePH:       'Enter your name',
+    qnums:        ['Question 01','Question 02','Question 03','Question 04','Question 05'],
+    questions: [
+      'How would you rate the timeliness of your room service?',
+      'How would you evaluate the presentation of your order?',
+      'How would you rate the quality and taste of the food?',
+      'How would you assess the service provided by our team?',
+      'Overall, how satisfied are you with your Room Service experience?',
+    ],
+    opts14: ['Excellent','Good','Fair','Poor'],
+    opts5:  ['Very satisfied','Satisfied','Neutral','Dissatisfied'],
+    labelComment: 'Additional comments (optional)',
+    commentPH:    'Share your experience...',
+    submitBtn:    'Submit survey',
+    errName:      'Please enter your name.',
+    errAll:       'Please answer all questions before submitting.',
+    successTitle: 'Thank you for your feedback!',
+    successSub:   'Your response has been recorded.<br>We hope you enjoyed your stay.',
+    exitLabel:    'Close survey',
   }
+};
 
-  function selectStar(qIndex, stars, opts) {
-    const group = document.getElementById('stargroup' + qIndex);
-    const wraps = group.querySelectorAll('.star-wrap');
-    wraps.forEach(w => {
-      const s = parseInt(w.dataset.stars);
-      if (s <= stars) {
-        w.classList.add('selected');
-      } else {
-        w.classList.remove('selected');
-      }
+/* ── STATE ── */
+let lang = 'es';
+// answers[i] = number of stars selected (1-4), or null
+const answers = { 1: null, 2: null, 3: null, 4: null, 5: null };
+
+/* ── BUILD ONE QUESTION WITH STAR WIDGET ── */
+function buildQuestion(idx, c) {
+  const opts = idx < 5 ? c.opts14 : c.opts5;
+  // opts[0] = best (4★), opts[3] = worst (1★)
+
+  const block = document.createElement('div');
+  block.className = 'q-block';
+  block.id = 'qblock' + idx;
+
+  // Question header
+  const qNum  = document.createElement('div');
+  qNum.className = 'q-num';
+  qNum.id = 'qnum' + idx;
+  qNum.textContent = c.qnums[idx - 1];
+
+  const qText = document.createElement('div');
+  qText.className = 'q-text';
+  qText.id = 'qtext' + idx;
+  qText.textContent = c.questions[idx - 1];
+
+  // Star row
+  const row = document.createElement('div');
+  row.className = 'star-row';
+  row.id = 'srow' + idx;
+
+  for (let s = 1; s <= 4; s++) {
+    const label = opts[4 - s]; // s=4→opts[0] best, s=1→opts[3] worst
+
+    const cell = document.createElement('div');
+    cell.className = 'star-cell';
+    cell.id = 'sc_' + idx + '_' + s;
+
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'star-btn';
+    btn.setAttribute('aria-label', s + ' ' + (s === 1 ? 'estrella' : 'estrellas') + ' — ' + label);
+
+    btn.innerHTML =
+      '<svg class="star-svg" viewBox="0 0 51 48" xmlns="http://www.w3.org/2000/svg">' +
+        '<path class="star-path" d="M25.5 2l6.18 12.53 13.82 2.01-10 9.74 2.36 13.77' +
+        'L25.5 33.5l-12.36 6.5 2.36-13.77-10-9.74 13.82-2.01z"/>' +
+      '</svg>';
+
+    const num = document.createElement('span');
+    num.className = 'star-num';
+    num.textContent = s + '★';
+    num.setAttribute('aria-hidden', 'true');
+
+    cell.appendChild(btn);
+    cell.appendChild(num);
+    row.appendChild(cell);
+
+    // Click — the only way state changes
+    btn.addEventListener('click', function() {
+      selectStar(idx, s, opts);
     });
-    // value: stars=4→opts[0], stars=3→opts[1], stars=2→opts[2], stars=1→opts[3]
-    const label = opts[4 - stars];
-    document.getElementById('starans' + qIndex).textContent = label;
-    // store selected value in a hidden field
-    let hidden = document.getElementById('hid_q' + qIndex);
-    if (!hidden) {
-      hidden = document.createElement('input');
-      hidden.type = 'hidden';
-      hidden.id = 'hid_q' + qIndex;
-      hidden.name = 'q' + qIndex;
-      document.getElementById('surveyForm').appendChild(hidden);
-    }
-    hidden.value = label;
   }
 
-  function setLang(lang) {
-    currentLang = lang;
-    const c = content[lang];
-    document.getElementById('mainTitle').innerHTML = c.mainTitle;
-    document.getElementById('mainSubtitle').textContent = c.mainSubtitle;
-    document.getElementById('labelName').textContent = c.labelName;
-    document.getElementById('guestName').placeholder = c.namePlaceholder;
-    document.getElementById('labelComment').textContent = c.labelComment;
-    document.getElementById('comment').placeholder = c.commentPlaceholder;
-    document.getElementById('submitBtn').textContent = c.submitBtn;
-    document.getElementById('errorMsg').textContent = c.errorMsg;
+  // Answer pill
+  const answerWrap = document.createElement('div');
+  answerWrap.className = 'star-answer';
 
-    // Clear hidden inputs on lang switch so answers reset
-    for (let i = 1; i <= 5; i++) {
-      const h = document.getElementById('hid_q' + i);
-      if (h) h.value = '';
+  const pill = document.createElement('span');
+  pill.className = 'star-pill';
+  pill.id = 'pill' + idx;
+
+  answerWrap.appendChild(pill);
+
+  block.appendChild(qNum);
+  block.appendChild(qText);
+  block.appendChild(row);
+  block.appendChild(answerWrap);
+
+  return block;
+}
+
+/* ── SELECT STAR — single, authoritative function ── */
+function selectStar(idx, stars, opts) {
+  answers[idx] = stars;
+
+  // Update visual state from scratch every time
+  for (let k = 1; k <= 4; k++) {
+    const cell = document.getElementById('sc_' + idx + '_' + k);
+    if (cell) {
+      if (k <= stars) {
+        cell.classList.add('lit');
+      } else {
+        cell.classList.remove('lit');
+      }
     }
-
-    for (let i = 1; i <= 5; i++) {
-      document.getElementById('qnum' + i).textContent = c.qnums[i-1];
-      document.getElementById('qtext' + i).textContent = c.questions[i-1];
-      const opts = (i < 5) ? c.opts14 : c.opts5;
-      buildStars(i, opts);
-    }
-
-    document.getElementById('btnEs').classList.toggle('active', lang === 'es');
-    document.getElementById('btnEn').classList.toggle('active', lang === 'en');
   }
 
-  /* initialise */
-  setLang('es');
+  // Show pill: stars=4→opts[0], stars=1→opts[3]
+  const label = opts[4 - stars];
+  const pill  = document.getElementById('pill' + idx);
+  if (pill) {
+    pill.textContent = label;
+    pill.classList.add('show');
+  }
 
-  /* ── Form submission ── */
-  async function submitForm(e) {
-    e.preventDefault();
-    const c = content[currentLang];
-    const errorEl = document.getElementById('errorMsg');
-    errorEl.style.display = 'none';
+  // Hide error if all done
+  if (Object.values(answers).every(function(v) { return v !== null; })) {
+    document.getElementById('errorMsg').style.display = 'none';
+  }
+}
 
-    const name = document.getElementById('guestName').value.trim();
-    if (!name) {
-      errorEl.textContent = currentLang === 'es'
-        ? 'Por favor ingrese su nombre.'
-        : 'Please enter your name.';
-      errorEl.style.display = 'block';
+/* ── SET LANGUAGE ── */
+function setLang(newLang) {
+  lang = newLang;
+  var c = C[lang];
+
+  document.getElementById('mainTitle').innerHTML     = c.mainTitle;
+  document.getElementById('mainSubtitle').innerHTML  = c.mainSub;
+  document.getElementById('labelName').textContent   = c.labelName;
+  document.getElementById('guestName').placeholder   = c.namePH;
+  document.getElementById('labelComment').textContent = c.labelComment;
+  document.getElementById('comment').placeholder     = c.commentPH;
+  document.getElementById('submitBtn').textContent   = c.submitBtn;
+  document.getElementById('errorMsg').style.display  = 'none';
+
+  // Rebuild question blocks
+  var container = document.getElementById('q-container');
+  container.innerHTML = '';
+  for (var i = 1; i <= 5; i++) {
+    container.appendChild(buildQuestion(i, c));
+  }
+
+  // Re-apply existing answers with new language labels
+  for (var j = 1; j <= 5; j++) {
+    if (answers[j] !== null) {
+      var opts = j < 5 ? c.opts14 : c.opts5;
+      selectStar(j, answers[j], opts);
+    }
+  }
+
+  document.getElementById('btnEs').classList.toggle('active', lang === 'es');
+  document.getElementById('btnEn').classList.toggle('active', lang === 'en');
+}
+
+/* ── SUBMIT ── */
+async function submitForm(e) {
+  e.preventDefault();
+  var c     = C[lang];
+  var errEl = document.getElementById('errorMsg');
+  errEl.style.display = 'none';
+
+  var name = document.getElementById('guestName').value.trim();
+  if (!name) {
+    errEl.textContent   = c.errName;
+    errEl.style.display = 'block';
+    document.getElementById('guestName').focus();
+    return;
+  }
+
+  for (var i = 1; i <= 5; i++) {
+    if (answers[i] === null) {
+      errEl.textContent   = c.errAll;
+      errEl.style.display = 'block';
+      document.getElementById('qblock' + i).scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
     }
-
-    const answers = [];
-    for (let i = 1; i <= 5; i++) {
-      const hidden = document.getElementById('hid_q' + i);
-      if (!hidden || !hidden.value) {
-        errorEl.textContent = c.errorMsg;
-        errorEl.style.display = 'block';
-        return;
-      }
-      answers.push(hidden.value);
-    }
-
-    const comment = document.getElementById('comment').value.trim();
-    const btn = document.getElementById('submitBtn');
-    btn.textContent = currentLang === 'es' ? 'Enviando...' : 'Sending...';
-    btn.disabled = true;
-
-    /* ── Send to Google Apps Script Web App ── */
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyLKm7uMCOhH_iSrGkafyT0UOPqPkAzhO6JR5Ul5EXK0brzupevA1pgpgt--MnNQuXN/exec'; // ← reemplazar
-
-    const payload = {
-      timestamp: new Date().toLocaleString('es-PE', {timeZone:'America/Lima'}),
-      nombre: name,
-      idioma: currentLang === 'es' ? 'Español' : 'English',
-      puntualidad: answers[0],
-      presentacion: answers[1],
-      calidad: answers[2],
-      atencion: answers[3],
-      satisfaccion: answers[4],
-      comentario: comment || '—',
-    };
-
-    try {
-      await fetch(SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-    } catch (_) { /* no-cors silences errors; data still posts */ }
-
-    /* Show success */
-    document.getElementById('surveyForm').style.display = 'none';
-    const ss = document.getElementById('successScreen');
-    ss.style.display = 'block';
-    document.getElementById('successTitle').textContent = c.successTitle;
-    document.getElementById('successSub').innerHTML = c.successSub;
   }
+
+  // Resolve text labels
+  function getLabel(idx) {
+    var opts = idx < 5 ? c.opts14 : c.opts5;
+    return opts[4 - answers[idx]]; // stars=4→opts[0], stars=1→opts[3]
+  }
+
+  var comment = document.getElementById('comment').value.trim();
+  var btn     = document.getElementById('submitBtn');
+  btn.textContent = lang === 'es' ? 'Enviando…' : 'Sending…';
+  btn.disabled    = true;
+
+  var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyLKm7uMCOhH_iSrGkafyT0UOPqPkAzhO6JR5Ul5EXK0brzupevA1pgpgt--MnNQuXN/exec'; // ← reemplazar
+
+  var payload = {
+    timestamp:    new Date().toLocaleString('es-PE', { timeZone: 'America/Lima' }),
+    nombre:       name,
+    idioma:       lang === 'es' ? 'Español' : 'English',
+    puntualidad:  getLabel(1),
+    presentacion: getLabel(2),
+    calidad:      getLabel(3),
+    atencion:     getLabel(4),
+    satisfaccion: getLabel(5),
+    comentario:   comment || '—',
+  };
+
+  try {
+    await fetch(SCRIPT_URL, {
+      method:  'POST',
+      mode:    'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify(payload),
+    });
+  } catch (_) {}
+
+  // Avg stars display
+  var total = 0;
+  for (var k = 1; k <= 5; k++) total += answers[k];
+  var avgStars = Math.round(total / 5);
+  document.getElementById('successStars').textContent = '★'.repeat(avgStars);
+
+  document.getElementById('successTitle').textContent   = c.successTitle;
+  document.getElementById('successSub').innerHTML       = c.successSub;
+  document.getElementById('exitLabel').textContent      = c.exitLabel;
+
+  document.getElementById('surveyForm').style.display   = 'none';
+  var ss = document.getElementById('successScreen');
+  ss.style.display = 'block';
+  ss.style.animation = 'fadeUp .6s ease both';
+}
+
+/* ── CLOSE ── */
+function closePage() {
+  window.close();
+  // Fallback if browser blocks window.close
+  setTimeout(function() {
+    var btn = document.querySelector('.exit-btn');
+    if (btn) {
+      btn.innerHTML = lang === 'es'
+        ? '<span>Puede cerrar esta pestaña manualmente</span>'
+        : '<span>You may close this tab manually</span>';
+      btn.style.opacity = '.55';
+      btn.style.cursor  = 'default';
+      btn.onclick = null;
+    }
+  }, 350);
+}
+
+/* ── INIT ── */
+setLang('es');
 </script>
 </body>
 </html>
